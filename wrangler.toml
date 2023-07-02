@@ -1,0 +1,19 @@
+name = "sourceruns-stream-notifier"
+main = "src/index.ts"
+compatibility_date = "2023-07-02"
+usage_model = "bundled"
+
+
+[[kv_namespaces]]
+id = "1f012815fbc64ef485a3741abd369f2e"
+binding = "SOURCERUNS_STREAM_NOTIF"
+preview_id = "65edb3d9244449829e3500d848028491"
+
+[triggers]
+crons = ["*/5 * * * *"]
+
+#[vars] # webhook goes here
+#WEBHOOK = "https://discord.com/api/webhooks/xxxxxx/xxxxxxxxxxxxx"
+#TWITCH_OAUTH = xxxx
+#TWITCH_CLIENT_ID = xxxx
+#TWITCH_CLIENT_SECRET = xxxx
