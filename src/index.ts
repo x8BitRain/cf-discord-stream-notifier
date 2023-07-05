@@ -12,7 +12,7 @@ const channelWhitelist = [
   'ExtraVirus',
   'Buffet_Time',
   'KaNangaTV',
-  'Muty71',
+  'muty',
   'ConnorAce_',
   'Proto',
   'Chinese_soup',
@@ -54,18 +54,27 @@ const startStreamCheck = async (env: any): Promise<ChannelStatuses> => {
     const channelIsLive = statuses?.data.find(
       (userData) => userData.user_login.toLowerCase() === channel.toLowerCase()
     );
+    const channelIsLiveCacheStatus = channels[channel] === 'live';
     const channelIsOfflineCacheStatus = channels[channel] === 'offline';
 
     if (channelIsLive) {
       channels[channel] = 'live';
-      // If the streamer is live but the cache says they weren't live previously,
-      // set the streamer's status in cache to live and trigger the webhook.
-      if (channelIsOfflineCacheStatus) {
-        await sendMessageToWebhook(channelIsLive, webhook);
-      }
     }
 
     if (!channelIsLive) {
+      channels[channel] = 'offline';
+    }
+
+    // If the streamer is live but the cache says they weren't live previously,
+    // set the streamer's status in cache to live and trigger the webhook.
+    if (channelIsLive && channelIsOfflineCacheStatus) {
+      await sendMessageToWebhook(channelIsLive, webhook);
+      channels[channel] = 'live';
+    }
+
+    // If the streamer's status in the cache said they were live before, but they
+    // aren't now, set them to offline.
+    if (!channelIsLive && channelIsLiveCacheStatus) {
       channels[channel] = 'offline';
     }
   }
