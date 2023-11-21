@@ -40,7 +40,8 @@ const channelWhitelist = [
   'thisis2838',
   'LyrenMeow',
   'ayb_hl',
-  'Tankfird'
+  'Tankfird',
+  'kvadratyk01'
 ];
 
 const startStreamCheck = async (env: any): Promise<ChannelStatuses> => {
@@ -49,6 +50,7 @@ const startStreamCheck = async (env: any): Promise<ChannelStatuses> => {
     JSON.parse(await env.SOURCERUNS_STREAM_NOTIF.get('channels')) || {};
 
   const statuses = await checkChannelStatus(channelWhitelist, env);
+  console.log(statuses);
 
   for (const channel of channelWhitelist) {
     const channelIsLive = statuses?.data.find(
